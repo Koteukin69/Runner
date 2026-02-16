@@ -1,27 +1,54 @@
 using UnityEngine;
 using System;
+using RunnerInput;
 
-[DisallowMultipleComponent]
+[DisallowMultipleComponent, DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
-    public static InputManager Input => _instance?._input ?? throw MissingInstanceException;
+    public static IInput Input => _instance?._input ?? throw MissingInstanceException;
     public static int Lines => _instance?._lines ?? throw MissingInstanceException;
     public static float LinesShift => _instance?._lineShift ?? throw MissingInstanceException;
     
-    private InputManager _input;
+    
     [SerializeField, Min(1)] private int _lines = 3;
     [SerializeField, Min(0)] private float _lineShift = 2f;
+    [SerializeField] private Inputs _inputs = Inputs.Keyboard | Inputs.Swipes;
     
+    private IInput _input;
     private static GameManager _instance;
 
     private void Awake()
     {
         // Singleton
-        if (_instance == null) _instance = this;
-        else throw new Exception("Only one GameManager instance is allowed.");
+        if (_instance != null) throw new Exception("Only one GameManager instance is allowed.");
+        _instance = this;
+        
+        InitializeInput();
+    }
 
-        _input = new ();
+    private void InitializeInput()
+    {
+        _input = _inputs switch
+        {
+            Inputs.Everything => new InputManager(new IInput[] { new KeyboardInput(), new SwipesInput() }),
+            Inputs.Keyboard => new KeyboardInput(),
+            Inputs.Swipes => new SwipesInput(),
+            _ => _input
+        };
+    }
+
+    private void OnDestroy()
+    {
+        if (_instance == this) _instance = null;
     }
 
     private static Exception MissingInstanceException => new ("GameManager is missing from the scene or game hasn't started yet.");
+}
+
+[Flags]
+enum Inputs
+{
+    Keyboard = 1,
+    Swipes = 2,
+    Everything = ~0,
 }

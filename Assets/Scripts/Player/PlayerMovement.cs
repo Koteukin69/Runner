@@ -11,10 +11,9 @@ namespace Player
         [Header("Jumping")]
         [SerializeField, Min(0.001f)] private float _jumpTime = 1f;
         [SerializeField, Min(0f)] private float _jumpHeight = 2f;
-        
+
         [Header("Rolling")]
         [SerializeField, Min(0.001f)] private float _rollTime = 1f;
-        
         private int _position;
         private float _jumped = float.MinValue;
         private float _rolled = float.MinValue;
@@ -23,7 +22,7 @@ namespace Player
         public Action<float> OnJump;
         public Action<float> OnRoll;
 
-        private void Start()
+        private void Awake()
         {
             _position = Mathf.FloorToInt((GameManager.Lines - 1f) / 2);
         }
@@ -63,10 +62,10 @@ namespace Player
         private void Roll()
         {
             _rolled = Time.time;
-            OnRoll?.Invoke(_rollTime);
+            OnRoll?.Invoke(1f);
         }
 
         public bool IsJumping => Time.time - _jumped < _jumpTime;
-        public bool IsRolling => Time.time - _rolled < _jumpTime;
+        public bool IsRolling => Time.time - _rolled < _rollTime;
     }
 }

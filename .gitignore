@@ -100,11 +100,7 @@ InitTestScene*.unity*
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
 
 .vscode
+.idea
 **/*.meta
 Assembly-CSharp.csproj
 *.slnx
-
-**/node_modules
-
-**/bin
-**/obj
