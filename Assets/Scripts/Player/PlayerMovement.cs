@@ -1,4 +1,5 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Player
@@ -7,6 +8,7 @@ namespace Player
     {
         [Header("Movement")]
         [SerializeField, Min(0)] private float _speed = 5f;
+        [SerializeField, Min(0.001f)] private float _moveTime = 0.3f;
         
         [Header("Jumping")]
         [SerializeField, Min(0.001f)] private float _jumpTime = 1f;
@@ -17,6 +19,11 @@ namespace Player
         private int _position;
         private float _jumped = float.MinValue;
         private float _rolled = float.MinValue;
+        
+        private float _laneX;
+        private Tween _moveTween;
+        
+        private Action _queued;
 
         // TODO Animations
         public Action<float> OnJump;
@@ -25,6 +32,7 @@ namespace Player
         private void Awake()
         {
             _position = Mathf.FloorToInt((GameManager.Lines - 1f) / 2);
+            _laneX = GameManager.LinesShift * (_position - (GameManager.Lines - 1f) / 2);
         }
         
         private void Update()
@@ -36,7 +44,7 @@ namespace Player
         private void MoveUpdate()
         {
             float jumpT = Mathf.Clamp01((Time.time - _jumped) / _jumpTime);
-            Vector3 position = Vector3.right * (GameManager.LinesShift * (_position - (GameManager.Lines - 1f) / 2)) + 
+            Vector3 position = Vector3.right * _laneX + 
                                Vector3.forward * (Time.time * _speed) + 
                                Vector3.up * (4f * jumpT * (1f - jumpT) * _jumpHeight) +
                                (IsRolling ? Vector3.down : Vector3.zero);
@@ -44,11 +52,41 @@ namespace Player
             transform.position = position;
         }
 
+        private void OnDestroy()
+        {
+            _moveTween?.Kill();
+        }
+        
         private void HandleInput()
         {
-            _position = Mathf.Clamp(_position + GameManager.Input.MovedOn, 0, GameManager.Lines - 1);
+            int newPos = Mathf.Clamp(_position + GameManager.Input.MovedOn, 0, GameManager.Lines - 1);
+            if (newPos != _position)
+            {
+                _position = newPos;
+                float targetX = GameManager.LinesShift * (_position - (GameManager.Lines - 1f) / 2);
+                _moveTween?.Kill();
+                _moveTween = DOTween
+                    .To(() => _laneX, x => _laneX = x, targetX, _moveTime)
+                    .Play();
+            }
             
-            if (IsJumping || IsRolling) return;
+            if (IsJumping || IsRolling)
+            {
+                if (_queued != null) return;
+                
+                if (GameManager.Input.Jumped) _queued = Jump;
+                else if (GameManager.Input.Rolled) _queued = Roll;
+                return;
+            }
+            
+            if (_queued != null)
+            {
+                _queued.Invoke();
+                
+                _queued = null;
+                return;
+            }
+            
             if (GameManager.Input.Jumped) Jump();
             else if (GameManager.Input.Rolled) Roll();
         }

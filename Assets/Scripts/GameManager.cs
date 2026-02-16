@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour
         };
     }
 
+    private void Update()
+    {
+        _input.Update?.Invoke();
+    }
+
     private void OnDestroy()
     {
         if (_instance == this) _instance = null;
