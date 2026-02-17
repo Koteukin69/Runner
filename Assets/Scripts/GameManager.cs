@@ -1,16 +1,18 @@
 using UnityEngine;
 using System;
+using Level;
 using RunnerInput;
 
 [DisallowMultipleComponent, DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
     public static IInput Input => _instance?._input ?? throw MissingInstanceException;
-    public static int Lines => _instance?._lines ?? throw MissingInstanceException;
+    public static uint Lines => _instance?._lines ?? throw MissingInstanceException;
+    public static uint ChunkSize => _instance?._chunkSize ?? throw MissingInstanceException;
     public static float LinesShift => _instance?._lineShift ?? throw MissingInstanceException;
     
-    
-    [SerializeField, Min(1)] private int _lines = 3;
+    [SerializeField, Min(1)] private uint _lines = 3;
+    [SerializeField, Min(1)] private uint _chunkSize = 8;
     [SerializeField, Min(0)] private float _lineShift = 2f;
     [SerializeField] private Inputs _inputs = Inputs.Keyboard | Inputs.Swipes;
     

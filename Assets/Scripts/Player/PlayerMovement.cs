@@ -52,14 +52,12 @@ namespace Player
             transform.position = position;
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() => 
             _moveTween?.Kill();
-        }
         
         private void HandleInput()
         {
-            int newPos = Mathf.Clamp(_position + GameManager.Input.MovedOn, 0, GameManager.Lines - 1);
+            int newPos = Mathf.Clamp(_position + GameManager.Input.MovedOn, 0, (int) GameManager.Lines - 1);
             if (newPos != _position)
             {
                 _position = newPos;
