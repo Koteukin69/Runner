@@ -3,8 +3,6 @@ using System;
 using DG.Tweening;
 using Level;
 using RunnerInput;
-using UnityEngine.SceneManagement;
-using Requests;
 
 [DisallowMultipleComponent, DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
@@ -15,6 +13,9 @@ public class GameManager : MonoBehaviour
     public static float LinesShift => _instance?._lineShift ?? throw MissingInstanceException;
     public static float LevelLength => _instance?._levelLength ?? throw MissingInstanceException;
     public static LevelManager LevelManager => _instance?._levelManager ?? throw MissingInstanceException;
+    
+    public static CoinsManager CoinsManager => _instance?._coinsManager ?? throw MissingInstanceException;
+    
     public static Action OnDie;
     public static Action OnFinish;
 
@@ -23,11 +24,14 @@ public class GameManager : MonoBehaviour
     [SerializeField, Min(0)] private float _lineShift = 2f;
     [SerializeField] private uint _levelLength = 20;
     [SerializeField] private LevelManager _levelManager;
+    [SerializeField] private int _seed;
     
     [SerializeField] private Inputs _inputs = Inputs.Keyboard | Inputs.Swipes;
     [SerializeField] private LevelTemplates _levelTemplates;
-
+    
     private IInput _input;
+    private CoinsManager _coinsManager;
+    
     private static GameManager _instance;
 
     private void Awake()
@@ -38,21 +42,7 @@ public class GameManager : MonoBehaviour
         
         InitializeInput();
         InitializeLevel();
-        
-        // TODO Move this implementation out of GameManager
-        OnDie += () =>
-        {
-            Debug.Log("You Died!");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        };
-        OnFinish += () =>
-        {
-            Debug.Log("You Won!");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            
-            new Post("https://localhost:3000/finnish", "{}", this)
-                .AddResponseCallback(response => Debug.Log(response));
-        };
+        _coinsManager = new CoinsManager();
     }
 
     private void InitializeLevel()
@@ -60,7 +50,8 @@ public class GameManager : MonoBehaviour
         if (!_levelManager) throw new MissingFieldException(nameof(_levelManager));
         if (!_levelTemplates) throw new MissingFieldException(nameof(_levelTemplates));
 
-        _levelManager.Initialize(new RandomLevelProvider(_levelTemplates));
+        int seed = _seed == 0 ? Environment.TickCount : _seed;
+        _levelManager.Initialize(new RandomLevelProvider(_levelTemplates, seed));
     }
 
     private void InitializeInput()
@@ -74,16 +65,14 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    private void Update()
-    {
-        _input.Update?.Invoke();
-    }
+    private void Update() => _input.Update?.Invoke();
 
     private void OnDestroy()
     {
         if (_instance == this)
         {
             OnDie = null;
+            OnFinish = null;
             DOTween.KillAll();
             _instance = null;
         }
