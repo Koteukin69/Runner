@@ -23,8 +23,7 @@ public class CameraFollow : MonoBehaviour
         transform.position = new Vector3(
             !_freezePosition.HasFlag(FreezePosition.x) ? position.x : transform.position.x, 
             !_freezePosition.HasFlag(FreezePosition.y) ? position.y : transform.position.y,
-            !_freezePosition.HasFlag(FreezePosition.z) ? position.z : transform.position.z
-        );
+            !_freezePosition.HasFlag(FreezePosition.z) ? position.z : transform.position.z);
     }
 }
 

@@ -9,27 +9,46 @@ public class WallsSpawner : MonoBehaviour
     [SerializeField, Min(0.001f)] private float _size = 10f;
     [SerializeField] private uint _count;
     
-    private Transform[] _walls;
+    [Header("Auto generated")]
+    [SerializeField] private Transform[] _walls;
+    
     private uint _lastMoved;
     
-    private void Start() =>
-        SpawnWalls();
-
+    private void OnValidate()
+    {
+        UnityEditor.EditorApplication.delayCall -= SpawnWalls;
+        UnityEditor.EditorApplication.delayCall += SpawnWalls;
+    }
+    
     private void Update() =>
         TryMoveWalls();
 
     private void SpawnWalls()
     {
-        if (!_wallsPrefab) throw new ("");
+        if (this == null) return;
+        if (!_wallsPrefab) throw new MissingFieldException(nameof(_wallsPrefab));
         
-        _walls = Enumerable.Range(0, (int) _count).Select(i => 
+        ClearWalls();
+        
+        _walls = Enumerable.Range(0, (int)_count).Select(i =>
             Instantiate(_wallsPrefab, transform.position + Vector3.forward * (_size * i),
                 Quaternion.identity, transform).transform).ToArray();
     }
 
+    private void ClearWalls()
+    {
+        foreach (var wall in _walls)
+        {
+            GameObject wallObj = wall?.gameObject;
+
+            if (!wallObj) continue;
+            DestroyImmediate(wallObj);
+        }
+    }
+    
     private void TryMoveWalls()
     {
-        if (!_playerTransform) throw new ("");
+        if (!_playerTransform) throw new MissingFieldException(nameof(_playerTransform));
         
         if (_playerTransform.position.z <= _walls[_lastMoved].position.z) return;
         _walls[_lastMoved].Translate(Vector3.forward * (_size * _count));

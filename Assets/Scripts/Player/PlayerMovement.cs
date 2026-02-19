@@ -19,6 +19,7 @@ namespace Player
         private int _position;
         private float _jumped = float.MinValue;
         private float _rolled = float.MinValue;
+        private float _startTime;
         
         private float _laneX;
         private Tween _moveTween;
@@ -31,6 +32,7 @@ namespace Player
 
         private void Awake()
         {
+            _startTime = Time.time;
             _position = Mathf.FloorToInt((GameManager.Lines - 1f) / 2);
             _laneX = GameManager.LinesShift * (_position - (GameManager.Lines - 1f) / 2);
         }
@@ -45,7 +47,7 @@ namespace Player
         {
             float jumpT = Mathf.Clamp01((Time.time - _jumped) / _jumpTime);
             Vector3 position = Vector3.right * _laneX + 
-                               Vector3.forward * (Time.time * _speed) + 
+                               Vector3.forward * ((Time.time - _startTime) * _speed) +
                                Vector3.up * (4f * jumpT * (1f - jumpT) * _jumpHeight) +
                                (IsRolling ? Vector3.down : Vector3.zero);
             
@@ -92,15 +94,16 @@ namespace Player
         private void Jump()
         {
             _jumped = Time.time;
-            OnJump?.Invoke(_jumped);
+            OnJump?.Invoke(_jumpTime);
         }
 
         private void Roll()
         {
             _rolled = Time.time;
-            OnRoll?.Invoke(1f);
+            OnRoll?.Invoke(_rollTime);
         }
 
+        public int Lane => _position;
         public bool IsJumping => Time.time - _jumped < _jumpTime;
         public bool IsRolling => Time.time - _rolled < _rollTime;
     }
