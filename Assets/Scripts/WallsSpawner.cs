@@ -16,8 +16,10 @@ public class WallsSpawner : MonoBehaviour
     
     private void OnValidate()
     {
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.delayCall -= SpawnWalls;
         UnityEditor.EditorApplication.delayCall += SpawnWalls;
+#endif
     }
     
     private void Update() =>
