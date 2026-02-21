@@ -72,8 +72,6 @@ namespace Player
             
             if (IsJumping || IsRolling)
             {
-                if (_queued != null) return;
-                
                 if (GameManager.Input.Jumped) _queued = Jump;
                 else if (GameManager.Input.Rolled) _queued = Roll;
                 return;

@@ -3,6 +3,7 @@ using System;
 using DG.Tweening;
 using Level;
 using RunnerInput;
+using System.Threading.Tasks;
 
 [DisallowMultipleComponent, DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     public static float LinesShift => _instance?._lineShift ?? throw MissingInstanceException;
     public static float LevelLength => _instance?._levelLength ?? throw MissingInstanceException;
     public static LevelManager LevelManager => _instance?._levelManager ?? throw MissingInstanceException;
+    public static NetworkManager NetworkManager => _instance?._networkManager ?? throw MissingInstanceException;
     
     public static CoinsManager CoinsManager => _instance?._coinsManager ?? throw MissingInstanceException;
     
@@ -23,14 +25,20 @@ public class GameManager : MonoBehaviour
     [SerializeField, Min(1)] private uint _chunkSize = 8;
     [SerializeField, Min(0)] private float _lineShift = 2f;
     [SerializeField] private uint _levelLength = 20;
-    [SerializeField] private LevelManager _levelManager;
-    [SerializeField] private int _seed;
-    
     [SerializeField] private Inputs _inputs = Inputs.Keyboard | Inputs.Swipes;
+    
+    [SerializeField] private LevelManager _levelManager;
     [SerializeField] private LevelTemplates _levelTemplates;
+
+    [Header("Network Manager")] 
+    [SerializeField] private string _localUrl = "http://localhost:3000";
+    [SerializeField] private string _globalUrl = "https://itmoscow-start.ru";
+    [SerializeField] private bool _isTest = true;
+    [SerializeField] private string _defaultUser;
     
     private IInput _input;
     private CoinsManager _coinsManager;
+    private NetworkManager _networkManager;
     
     private static GameManager _instance;
 
@@ -41,18 +49,22 @@ public class GameManager : MonoBehaviour
         _instance = this;
         
         InitializeInput();
-        InitializeLevel();
         _coinsManager = new CoinsManager();
+        _ = InitializeLevel();
     }
-
-    private void InitializeLevel()
+    
+    private async Task InitializeLevel()
     {
         if (!_levelManager) throw new MissingFieldException(nameof(_levelManager));
         if (!_levelTemplates) throw new MissingFieldException(nameof(_levelTemplates));
 
-        int seed = _seed == 0 ? Environment.TickCount : _seed;
+        InitializeNetwork();
+        int seed = await _networkManager.GetSeedAsync();
         _levelManager.Initialize(new RandomLevelProvider(_levelTemplates, seed));
     }
+
+    private void InitializeNetwork() => 
+        _networkManager = new NetworkManager(_localUrl, _globalUrl, _isTest, _defaultUser);
 
     private void InitializeInput()
     {
