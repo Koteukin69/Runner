@@ -25,13 +25,18 @@ public class EndGameManager : MonoBehaviour
     static Action EndGame(GameObject ui, Button button) => () => {
         if (!ui) throw new NullReferenceException(nameof(ui));
         if (!button) throw new NullReferenceException(nameof(button));
-        _ = GameManager.NetworkManager.SendCoinsAsync(GameManager.CoinsManager.Coins);
-        
         Time.timeScale = 0;
+        _ = SendCoinsThenShowUI(ui, button);
+    };
+
+    private static async Awaitable SendCoinsThenShowUI(GameObject ui, Button button)
+    {
+        await GameManager.RunWithRetry(() =>
+            GameManager.NetworkManager.SendCoinsAsync(GameManager.CoinsManager.Coins));
         ui.SetActive(true);
         button.onClick.RemoveListener(Continue);
         button.onClick.AddListener(Continue);
-    };
+    }
 
     private static void Continue()
     {

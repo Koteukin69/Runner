@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jumpable
-  m_Shader: {fileID: -6465566751694194690, guid: 5906ab331aea78e49847805f4f76dca4, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 7b0b171ac06e8eb4481a389decde3499, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -37,6 +37,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 2800000, guid: dd2e21fb358baa649a7ad7d1d6e722f5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2D:
         m_Texture: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
@@ -55,16 +67,21 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BumpScale: 1
     - _CurveHorizontalStrength: 0.0008
     - _CurveStart: 1.74
     - _CurveStrength: 5
     - _CurveVerticalStrength: -0.0003
+    - _OcclusionStrength: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothnes: 0
+    - _Smoothness: 0.5
     - _Strength: 0
     m_Colors:
-    - _Color: {r: 0.8102873, g: 1, b: 0.67058825, a: 1}
+    - _BaseColor: {r: 0.8117647, g: 1, b: 0.67058825, a: 1}
+    - _Color: {r: 0.6698113, g: 1, b: 0.974133, a: 1}
+    - _CurveStrength: {r: 8, g: -3, b: 0, a: 0}
     - _Emission: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

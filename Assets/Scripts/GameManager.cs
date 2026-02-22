@@ -1,9 +1,10 @@
 using UnityEngine;
 using System;
+
 using DG.Tweening;
-using Level;
 using RunnerInput;
-using System.Threading.Tasks;
+using Level;
+using Requests;
 
 [DisallowMultipleComponent, DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
@@ -20,6 +21,7 @@ public class GameManager : MonoBehaviour
     
     public static Action OnDie;
     public static Action OnFinish;
+    public static Action OnNetworkError;
 
     [SerializeField, Min(1)] private uint _lines = 3;
     [SerializeField, Min(1)] private uint _chunkSize = 8;
@@ -31,9 +33,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LevelTemplates _levelTemplates;
 
     [Header("Network Manager")] 
-    [SerializeField] private string _localUrl = "http://localhost:3000";
-    [SerializeField] private string _globalUrl = "https://itmoscow-start.ru";
-    [SerializeField] private bool _isTest = true;
+    [SerializeField] private string _url = "https://itmoscow-start.ru";
+    [SerializeField] private bool _offline;
     [SerializeField] private string _defaultUser;
     
     private IInput _input;
@@ -41,30 +42,80 @@ public class GameManager : MonoBehaviour
     private NetworkManager _networkManager;
     
     private static GameManager _instance;
+    private static AwaitableCompletionSource _networkErrorResolved;
+    private static bool _offlinePersistent;
+    private static bool _offlinePersistentInitialized;
 
     private void Awake()
     {
         // Singleton
         if (_instance != null) throw new Exception("Only one GameManager instance is allowed.");
         _instance = this;
+
+        if (!_offlinePersistentInitialized)
+        {
+            _offlinePersistent = _offline;
+            _offlinePersistentInitialized = true;
+        }
+        else
+        {
+            _offline = _offlinePersistent;
+        }
         
         InitializeInput();
         _coinsManager = new CoinsManager();
         _ = InitializeLevel();
     }
     
-    private async Task InitializeLevel()
+    private async Awaitable InitializeLevel()
     {
         if (!_levelManager) throw new MissingFieldException(nameof(_levelManager));
         if (!_levelTemplates) throw new MissingFieldException(nameof(_levelTemplates));
 
+        Time.timeScale = 0;
         InitializeNetwork();
-        int seed = await _networkManager.GetSeedAsync();
+        await Awaitable.NextFrameAsync();
+
+        int seed = 0;
+        await RunWithRetry(async () => seed = await _networkManager.GetSeedAsync());
         _levelManager.Initialize(new RandomLevelProvider(_levelTemplates, seed));
+        Time.timeScale = 1f;
+    }
+
+    public static async Awaitable RunWithRetry(Func<Awaitable> action)
+    {
+        while (true)
+        {
+            try
+            {
+                await action();
+                return;
+            }
+            catch (Exception)
+            {
+                _networkErrorResolved = new AwaitableCompletionSource();
+                OnNetworkError?.Invoke();
+                await _networkErrorResolved.Awaitable;
+            }
+        }
+    }
+
+    public static void RetryConnection()
+    {
+        _networkErrorResolved?.SetResult();
+        _networkErrorResolved = null;
+    }
+
+    public static void GoOffline()
+    {
+        _offlinePersistent = true;
+        _instance._networkManager.SetOffline();
+        _networkErrorResolved?.SetResult();
+        _networkErrorResolved = null;
     }
 
     private void InitializeNetwork() => 
-        _networkManager = new NetworkManager(_localUrl, _globalUrl, _isTest, _defaultUser);
+        _networkManager = new NetworkManager(_url, _defaultUser, _offlinePersistent);
 
     private void InitializeInput()
     {
@@ -85,6 +136,7 @@ public class GameManager : MonoBehaviour
         {
             OnDie = null;
             OnFinish = null;
+            OnNetworkError = null;
             DOTween.KillAll();
             _instance = null;
         }
