@@ -48,8 +48,7 @@ namespace Player
             float jumpT = Mathf.Clamp01((Time.time - _jumped) / _jumpTime);
             Vector3 position = Vector3.right * _laneX + 
                                Vector3.forward * ((Time.time - _startTime) * _speed) +
-                               Vector3.up * (4f * jumpT * (1f - jumpT) * _jumpHeight) +
-                               (IsRolling ? Vector3.down : Vector3.zero);
+                               Vector3.up * (4f * jumpT * (1f - jumpT) * _jumpHeight);
             
             transform.position = position;
         }

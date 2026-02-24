@@ -1,0 +1,340 @@
+fileFormatVersion: 2
+guid: 0f19e863801239e4c860716dcc4edcee
+ModelImporter:
+  serializedVersion: 24200
+  internalIDToNameTable: []
+  externalObjects: {}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    strictVertexDataChecks: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton:
+    - name: Run(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Armature
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.60824394, y: -0.30624813, z: -0.2356681, w: 0.6933339}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Root
+      parentName: Armature
+      position: {x: 1.1033574e-18, y: 0.002134423, z: 0.00003091991}
+      rotation: {x: 0.8849771, y: -0.0215453, z: 0.00000050291425, w: -0.4651358}
+      scale: {x: 1, y: 0.99999774, z: 0.99999803}
+    - name: main
+      parentName: Root
+      position: {x: 1.1033574e-18, y: -0.002011024, z: 0}
+      rotation: {x: -0.47537193, y: -0.009195605, z: -0.0030861248, w: 0.8797315}
+      scale: {x: 1, y: 0.9999979, z: 0.9999978}
+    - name: Body
+      parentName: main
+      position: {x: 0.000000004037931, y: 0.0024014257, z: -0.0071561537}
+      rotation: {x: -0.7071068, y: -0.000000026628003, z: -0.00000037236398, w: 0.7071068}
+      scale: {x: 0.9999998, y: 0.99999905, z: 0.999999}
+    - name: Leg.L.Def
+      parentName: Body
+      position: {x: -0.0015213799, y: 0.00063708436, z: 0.0022331558}
+      rotation: {x: 0.85875624, y: -0.022709152, z: 0.4990567, w: 0.11386166}
+      scale: {x: 1.0000043, y: 1.0000068, z: 1.0000033}
+    - name: Leg.L.Switcher
+      parentName: Leg.L.Def
+      position: {x: 0.0000000025704503, y: 0.00030634328, z: -0.0012088732}
+      rotation: {x: -0.6253459, y: -0.0000006165354, z: -0.18577507, w: 0.75791174}
+      scale: {x: 1.0000058, y: 1.000007, z: 1.0000062}
+    - name: Leg.L.Switcher_end
+      parentName: Leg.L.Switcher
+      position: {x: -0, y: 0.0024910117, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hand.R.Def
+      parentName: Body
+      position: {x: 0.0035581763, y: 0.006976132, z: -0.0006708538}
+      rotation: {x: 0.86053175, y: 0.26602632, z: -0.34824955, w: 0.259687}
+      scale: {x: 1.0000042, y: 1.0000029, z: 1.0000074}
+    - name: Hand.R.Switcher
+      parentName: Hand.R.Def
+      position: {x: 0.0016045102, y: 0.00023373998, z: 0.0000000017881393}
+      rotation: {x: 0.116020106, y: -0.0000016987319, z: -0.55968535, w: 0.8205435}
+      scale: {x: 1.0000057, y: 1.0000064, z: 1.0000069}
+    - name: Hand.R.Switcher_end
+      parentName: Hand.R.Switcher
+      position: {x: -0, y: 0.0030711566, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hand.L.Def
+      parentName: Body
+      position: {x: -0.0039500888, y: 0.0068106535, z: -0.00050725584}
+      rotation: {x: -0.00000044703478, y: 0.00000004311632, z: 0.70710677, w: 0.7071068}
+      scale: {x: 1.0000027, y: 1.0000014, z: 1.0000008}
+    - name: Hand.L.Switcher
+      parentName: Hand.L.Def
+      position: {x: 0.0015165949, y: 0.0017553195, z: 2.9802322e-10}
+      rotation: {x: 0.000000042146834, y: -0.00000004214683, z: 1.9274496e-14, w: 1}
+      scale: {x: 1.0000011, y: 1.0000011, z: 0.9999999}
+    - name: Hand.L.Switcher_end
+      parentName: Hand.L.Switcher
+      position: {x: -0, y: 0.0030101025, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg.R.Def
+      parentName: Body
+      position: {x: 0.0018915402, y: -0.00010243178, z: -0.0010248461}
+      rotation: {x: 0.70710707, y: -0.00000001648831, z: 0.7071066, w: 0.000000009120345}
+      scale: {x: 1.000001, y: 1.0000032, z: 0.99999976}
+    - name: Leg.R.Switcher
+      parentName: Leg.R.Def
+      position: {x: -1.11758706e-10, y: 0.0020000003, z: 0.00137372}
+      rotation: {x: -0.00000004214687, y: -0.00000017881389, z: -0.000000084293674, w: 1}
+      scale: {x: 1.0000082, y: 1.0000104, z: 1.000008}
+    - name: Leg.R.Switcher_end
+      parentName: Leg.R.Switcher
+      position: {x: -0, y: 0.0027147399, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Head
+      parentName: Body
+      position: {x: -0.000017559883, y: 0.008572263, z: -0.00006750348}
+      rotation: {x: -0, y: -0.000000006070934, z: 1.4228618e-12, w: 1}
+      scale: {x: 0.99999994, y: 1.0000006, z: 1.0000008}
+    - name: Head_end
+      parentName: Head
+      position: {x: -0, y: 0.0042279623, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hand.L.Def.002
+      parentName: Root
+      position: {x: -0.005739047, y: -0.009157661, z: -0.017932171}
+      rotation: {x: -0.5000004, y: 0.49999985, z: 0.49999964, w: 0.5000002}
+      scale: {x: 1.0000038, y: 1.0000032, z: 0.9999993}
+    - name: Hand.L.Def.004
+      parentName: Hand.L.Def.002
+      position: {x: 0.0081506865, y: -0.0029619813, z: 0.0007517076}
+      rotation: {x: -0.70710677, y: 0.000000029802322, z: -0.0000003874302, w: 0.7071068}
+      scale: {x: 1.0000004, y: 1.0000019, z: 1.0000008}
+    - name: Hand.L.Def.004_end
+      parentName: Hand.L.Def.004
+      position: {x: -0, y: 0.0041937144, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Hand.R.Def.002
+      parentName: Root
+      position: {x: 0.005826291, y: 0.014739796, z: -0.008098413}
+      rotation: {x: 0.5000005, y: 0.4999999, z: -0.49999958, w: 0.5000001}
+      scale: {x: 1.000002, y: 1.000001, z: 1.0000026}
+    - name: Hand.R.Def.004
+      parentName: Hand.R.Def.002
+      position: {x: 0.00068373256, y: -0.0008208906, z: 0.0073564923}
+      rotation: {x: 0.7069427, y: 0.000000014850228, z: 0.0000004022731, w: 0.70727086}
+      scale: {x: 0.9999982, y: 0.9999993, z: 1.000001}
+    - name: Hand.R.Def.004_end
+      parentName: Hand.R.Def.004
+      position: {x: -0, y: 0.0031903896, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg.L.Def.003
+      parentName: Armature
+      position: {x: -0.0014754616, y: -0.0037780276, z: -0.000023588836}
+      rotation: {x: -0.34027535, y: -0.6267792, z: -0.17885868, w: -0.6777685}
+      scale: {x: 0.99999803, y: 0.9999998, z: 0.99999785}
+    - name: Leg.L.Def.005
+      parentName: Leg.L.Def.003
+      position: {x: 0.0017983445, y: -0.0034591344, z: 0.0000000022719444}
+      rotation: {x: -0.6464067, y: -0.31173977, z: -0.5929883, w: 0.36515972}
+      scale: {x: 0.9999998, y: 0.9999978, z: 0.99999833}
+    - name: Leg.L.Def.005_end
+      parentName: Leg.L.Def.005
+      position: {x: -0, y: 0.0019781687, z: 0}
+      rotation: {x: -0.76890296, y: -0.03751939, z: -0.103751585, w: 0.62977475}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Leg.R.Def.002
+      parentName: Armature
+      position: {x: 0.0015313062, y: 0.0065675853, z: -0.000023588836}
+      rotation: {x: 0.5000004, y: -0.49999967, z: 0.49999964, w: -0.50000036}
+      scale: {x: 1.000003, y: 1.0000026, z: 1.000001}
+    - name: Leg.R.Def.004
+      parentName: Leg.R.Def.002
+      position: {x: 0.00413924, y: -0.0016183209, z: 0.000000006561409}
+      rotation: {x: -0.109952286, y: -0.6958024, z: -0.103589796, w: 0.70216715}
+      scale: {x: 0.99999875, y: 0.9999962, z: 0.9999965}
+    - name: Leg.R.Def.004_end
+      parentName: Leg.R.Def.004
+      position: {x: -0, y: 0.0017549065, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Empty
+      parentName: Run(Clone)
+      position: {x: 2.0603566, y: 1.8823316, z: 2.8988817}
+      rotation: {x: 0.000000015454313, y: 0.70710677, z: -0.000000015454312, w: 0.7071068}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Head_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Head_MESH.001
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: L_Arm_Layer_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: L_Arm_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: L_Leg_Layer_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: L_Leg_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: R_Arm_Layer_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: R_Arm_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: R_Leg_Layer_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: R_Leg_Layer_MESH.003
+      parentName: Run(Clone)
+      position: {x: -0.125, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: R_Leg_Layer_MESH.004
+      parentName: Run(Clone)
+      position: {x: -0.125, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: R_Leg_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Torso_Layer_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    - name: Torso_MESH
+      parentName: Run(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
+      scale: {x: 100, y: 100, z: 100}
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 1
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: c8a519337a77a3b4781627aab9d939ac, type: 3}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

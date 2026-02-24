@@ -95,29 +95,68 @@ public class LevelTemplatesEditor : Editor
         if (GUILayout.Button("X\nEraser", GUILayout.Width(50), GUILayout.Height(36)))
             _selectedBrush = -1;
 
-        for (int i = 0; i < _levelObjectsProp.arraySize; i++)
+        foreach (LevelObjectType type in System.Enum.GetValues(typeof(LevelObjectType)))
         {
-            SerializedProperty elem = _levelObjectsProp.GetArrayElementAtIndex(i);
-            SerializedProperty typeProp = elem.FindPropertyRelative("Type");
-            LevelObjectType type = (LevelObjectType)typeProp.enumValueIndex;
+            int typeInt = (int)type;
             Color color = GetColorForType(type);
 
-            GUI.backgroundColor = _selectedBrush == i ? color : color * 0.5f;
-            string label = i + ": " + GetTypeLabel(type);
-            if (GUILayout.Button(label, GUILayout.Width(50), GUILayout.Height(36)))
-                _selectedBrush = i;
+            GUI.backgroundColor = _selectedBrush == typeInt ? color : color * 0.5f;
+            if (GUILayout.Button(GetTypeLabel(type), GUILayout.Width(50), GUILayout.Height(36)))
+                _selectedBrush = typeInt;
         }
 
         GUI.backgroundColor = savedBg;
         EditorGUILayout.EndHorizontal();
-
-        if (_selectedBrush >= _levelObjectsProp.arraySize)
-            _selectedBrush = -1;
     }
 
     private void DrawTemplatesList(uint lines, uint chunkSize)
     {
         EditorGUILayout.LabelField("Templates", EditorStyles.boldLabel);
+
+        if (GUILayout.Button("Migrate Old Templates (Index -> Type)"))
+        {
+            if (EditorUtility.DisplayDialog("Migrate Templates",
+                "This converts grid cells from _levelObjects indices to LevelObjectType values. " +
+                "Only run this ONCE after updating to type-based templates.",
+                "Migrate", "Cancel"))
+            {
+                bool anyChanged = false;
+                for (int t = 0; t < _templatesProp.arraySize; t++)
+                {
+                    SerializedProperty gridProp = _templatesProp.GetArrayElementAtIndex(t)
+                        .FindPropertyRelative("Grid");
+
+                    for (int i = 0; i < gridProp.arraySize; i++)
+                    {
+                        int cellValue = gridProp.GetArrayElementAtIndex(i).intValue;
+                        if (cellValue < 0) continue;
+
+                        if (cellValue < _levelObjectsProp.arraySize)
+                        {
+                            SerializedProperty elem = _levelObjectsProp.GetArrayElementAtIndex(cellValue);
+                            int typeValue = elem.FindPropertyRelative("Type").enumValueIndex;
+                            if (gridProp.GetArrayElementAtIndex(i).intValue != typeValue)
+                            {
+                                gridProp.GetArrayElementAtIndex(i).intValue = typeValue;
+                                anyChanged = true;
+                            }
+                        }
+                        else
+                        {
+                            gridProp.GetArrayElementAtIndex(i).intValue = -1;
+                            anyChanged = true;
+                        }
+                    }
+                }
+
+                if (anyChanged)
+                    Debug.Log("Migration complete: template grids converted from object indices to type values.");
+                else
+                    Debug.Log("Migration: no changes needed.");
+            }
+        }
+
+        EditorGUILayout.Space(4);
 
         if (GUILayout.Button("+ Add Template"))
         {
@@ -202,10 +241,9 @@ public class LevelTemplatesEditor : Editor
                 Color cellColor;
                 string cellLabel;
 
-                if (cellValue >= 0 && cellValue < _levelObjectsProp.arraySize)
+                if (cellValue >= 0 && cellValue <= (int)LevelObjectType.Rollable)
                 {
-                    SerializedProperty elem = _levelObjectsProp.GetArrayElementAtIndex(cellValue);
-                    LevelObjectType type = (LevelObjectType)elem.FindPropertyRelative("Type").enumValueIndex;
+                    LevelObjectType type = (LevelObjectType)cellValue;
                     cellColor = GetColorForType(type);
                     cellLabel = GetTypeLabel(type);
                 }

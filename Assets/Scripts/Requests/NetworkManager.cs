@@ -22,7 +22,7 @@ namespace Requests
 
         public async Awaitable SendCoinsAsync(uint amount)
         {
-            if (_offline) return;
+            if (_offline || amount == 0) return;
             string user = GetUrlParam("user") ?? _defaultUser;
             await Post.SendAsync($"{_url}/api/game/coins?user={user}", JsonUtility.ToJson(new CoinsRequest(amount)), 5);
         }
