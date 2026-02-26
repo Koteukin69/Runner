@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -6,8 +7,6 @@ namespace Player
     {
         [SerializeField] PlayerMovement _playerMovement;
         [SerializeField] AudioSource _audioSource;
-        [SerializeField, HideInInspector] float _jumpClipLength = 1f;
-        [SerializeField, HideInInspector] float _slideClipLength = 1f;
 
         private void OnValidate()
         {
@@ -25,17 +24,17 @@ namespace Player
 
         private void Jump(float duration)
         {
-            
+            throw new NotImplementedException();
         }
 
         private void Slide(float duration)
         {
-            
+            throw new NotImplementedException();
         }
 
         private void Die()
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

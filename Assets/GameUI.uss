@@ -1,0 +1,265 @@
+.root {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 18px 24px;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.hud__coins-card {
+    flex-direction: row;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 18px;
+    padding: 8px 16px;
+}
+
+.hud__coin-icon {
+    width: 26px;
+    height: 26px;
+    background-image: url("project://database/Assets/Textures/coins.png");
+    -unity-background-scale-mode: scale-to-fit;
+    margin-right: 8px;
+}
+
+.hud__coins-value {
+    font-size: 20px;
+    color: white;
+    -unity-font-style: bold;
+}
+
+.overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    scale: 1 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    transition-property: opacity, scale;
+    transition-duration: 400ms, 500ms;
+    transition-timing-function: ease-out, ease-out-back;
+}
+
+.overlay--hidden {
+    display: none;
+}
+
+.overlay--pre-animate {
+    opacity: 0;
+    scale: 0.8 0.8;
+}
+
+.overlay__panel {
+    position: relative;
+    align-items: center;
+    padding: 32px 30px;
+    border-radius: 28px;
+    min-width: 320px;
+    width: 380px;
+    max-width: 90%;
+}
+
+.overlay__panel--victory {
+    background-color: rgb(245, 164, 55);
+}
+
+.overlay__panel--defeat {
+    background-color: rgb(170, 70, 140);
+}
+
+.overlay__panel--network {
+    background-color: rgb(70, 80, 95);
+}
+
+.overlay__decor {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    opacity: 0.35;
+}
+
+.overlay__decor--victory {
+    background-color: rgb(255, 230, 160);
+}
+
+.overlay__decor--defeat {
+    background-color: rgb(120, 40, 90);
+}
+
+.overlay__decor--network {
+    background-color: rgb(255, 255, 255);
+    opacity: 0.15;
+}
+
+.overlay__decor--top-right {
+    top: -16px;
+    right: -16px;
+}
+
+.overlay__decor--bottom-left {
+    bottom: -12px;
+    left: -12px;
+}
+
+.overlay__shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 28px;
+}
+
+.overlay__shadow--defeat {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.overlay__icon-wrap {
+    width: 96px;
+    height: 96px;
+    border-radius: 48px;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    background-color: rgb(255, 255, 255);
+}
+
+.overlay__icon-label {
+    font-size: 46px;
+    -unity-text-align: middle-center;
+}
+
+.overlay__icon-label--victory {
+    color: rgb(245, 160, 50);
+}
+
+.overlay__icon-label--defeat {
+    color: rgb(220, 60, 80);
+}
+
+.overlay__icon-label--network {
+    color: rgb(90, 100, 120);
+}
+
+.overlay__title {
+    font-size: 38px;
+    -unity-font-style: bold;
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+    color: white;
+}
+
+.overlay__title--network {
+    font-size: 32px;
+}
+
+.overlay__subtitle {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 18px;
+    -unity-text-align: middle-center;
+}
+
+.overlay__coins-card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.overlay__coins-icon {
+    width: 36px;
+    height: 36px;
+    background-image: url("project://database/Assets/Textures/coins%201.png?fileID=2800000&guid=94fe425a23d10d1498ace35caaa61033&type=3#coins 1");
+    -unity-background-scale-mode: scale-to-fit;
+    margin-right: 12px;
+}
+
+.overlay__coins-text-block {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.overlay__coins-caption {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+    -unity-text-align: middle-center;
+}
+
+.overlay__coins-value-row {
+    flex-direction: row;
+    align-items: flex-end;
+    margin-top: 2px;
+}
+
+.overlay__coins-plus {
+    font-size: 26px;
+    -unity-font-style: bold;
+    color: white;
+    margin-right: 4px;
+}
+
+.overlay__coins-value {
+    font-size: 34px;
+    -unity-font-style: bold;
+    color: white;
+}
+
+.overlay__button {
+    width: 100%;
+    height: 54px;
+    border-radius: 18px;
+    font-size: 20px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+    margin-top: 10px;
+    border-width: 0;
+    transition-property: scale;
+    transition-duration: 100ms;
+}
+
+.overlay__button:hover {
+    scale: 1.05 1.05;
+}
+
+.overlay__button:active {
+    scale: 0.96 0.96;
+}
+
+.overlay__button--victory {
+    background-color: white;
+    color: rgb(230, 110, 30);
+}
+
+.overlay__button--defeat {
+    background-color: white;
+    color: rgb(210, 40, 70);
+}
+
+.overlay__button--retry {
+    background-color: rgb(55, 125, 235);
+    color: white;
+}
+
+.overlay__button--offline {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.95);
+    border-width: 2px;
+    border-color: rgba(255, 255, 255, 0.3);
+}

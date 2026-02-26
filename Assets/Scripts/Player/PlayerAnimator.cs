@@ -21,14 +21,12 @@ namespace Player
             if (!_animator) TryGetComponent(out _animator);
             
 #if UNITY_EDITOR
-            if (_animator && _animator.runtimeAnimatorController is UnityEditor.Animations.AnimatorController ac)
+            if (!_animator || !(_animator.runtimeAnimatorController is UnityEditor.Animations.AnimatorController ac)) return;
+            foreach (var s in ac.layers[0].stateMachine.states)
             {
-                foreach (var s in ac.layers[0].stateMachine.states)
-                {
-                    if (s.state.motion == null) continue;
-                    if (s.state.name == "Jump") _jumpClipLength = s.state.motion.averageDuration;
-                    else if (s.state.name == "Slide") _slideClipLength = s.state.motion.averageDuration;
-                }
+                if (s.state.motion == null) continue;
+                if (s.state.name == "Jump") _jumpClipLength = s.state.motion.averageDuration;
+                else if (s.state.name == "Slide") _slideClipLength = s.state.motion.averageDuration;
             }
 #endif
         }
