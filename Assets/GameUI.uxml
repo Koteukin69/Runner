@@ -1,7 +1,7 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" noNamespaceSchemaLocation="../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/GameUI.uss?fileID=7433441132597879392&amp;guid=2a79a572f03e8714f9237de5c482dc73&amp;type=3#GameUI"/>
     <ui:VisualElement name="root" class="root">
-        <ui:VisualElement name="hud" class="hud">
+        <ui:VisualElement name="hud" class="hud" style="flex-direction: row; justify-content: flex-end;">
             <ui:VisualElement class="hud__coins-card">
                 <ui:VisualElement class="hud__coin-icon"/>
                 <ui:Label name="hud-coins-label" text="0" class="hud__coins-value"/>

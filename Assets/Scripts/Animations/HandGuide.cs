@@ -12,6 +12,7 @@ public class HandGuide : MonoBehaviour
     [SerializeField] private float _actionDuration = 1f;
     
     private Sequence _sequence;
+    private static bool _played;
     
     private static readonly Color ColorTransparent = new(1f, 1f, 1f, 0f);
     private static readonly Color ColorOpaque = new(1f, 1f, 1f, 1f);
@@ -31,6 +32,7 @@ public class HandGuide : MonoBehaviour
     
     private void Start()
     {
+        if (_played) return;
         if (!_handRectTransform) throw new MissingFieldException(nameof(_handRectTransform));
         if (!_canvas) throw new MissingFieldException(nameof(_canvas));
 
@@ -45,7 +47,7 @@ public class HandGuide : MonoBehaviour
                 .AppendCallback(() => _handRectTransform.anchoredPosition = Vector2.left * positionOffset.x)
                 .Append(_handRectTransform.DOAnchorPosX(positionOffset.x, _actionDuration))
                 .Join(CreateFadePingPong(_handImage, _actionDuration))
-            ).Play();
+            ).AppendCallback(() => _played = true).Play();
     }
     
     private static Sequence CreateFadePingPong(Image image, float duration) => DOTween.Sequence()

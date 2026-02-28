@@ -36,7 +36,7 @@ namespace Requests
 #endif
         }       
     
-        public void SetOffline() => _offline = true;
+        public void SetOffline(bool offline = true) => _offline = offline;
 
         public NetworkManager(string url, string defaultUser, bool offline = false)
         {
