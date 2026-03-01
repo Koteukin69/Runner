@@ -1,6 +1,8 @@
+using System;
 using UnityEngine;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace Requests
 {
@@ -12,19 +14,23 @@ namespace Requests
         private readonly string _url;
         private readonly string _defaultUser;
         private bool _offline;
+        private static int _seed;
 
         public async Awaitable<int> GetSeedAsync()
         {
             if (_offline) return RandomNumberGenerator.GetInt32(int.MinValue, int.MaxValue);
-            string json = await Get.SendAsync($"{_url}/api/game/seed");
-            return JsonUtility.FromJson<SeedResponse>(json).seed;
+            
+            string user = GetUrlParam("user") ?? _defaultUser;
+            string json = await Get.SendAsync($"{_url}/api/game/seed?user={user}");
+            _seed = JsonUtility.FromJson<SeedResponse>(json).seed;
+            return _seed;
         }
 
         public async Awaitable SendCoinsAsync(uint amount)
         {
             if (_offline || amount == 0) return;
             string user = GetUrlParam("user") ?? _defaultUser;
-            await Post.SendAsync($"{_url}/api/game/coins?user={user}", JsonUtility.ToJson(new CoinsRequest(amount)), 5);
+            await Post.SendAsync($"{_url}/api/game/coins?user={user}", JsonUtility.ToJson(new CoinsRequest(amount, _seed)), 5);
         }
 
         private string GetUrlParam(string param)
@@ -45,17 +51,33 @@ namespace Requests
             _offline = offline;
         }
     }
-
-    [System.Serializable]
+    
+    [Serializable]
     public class CoinsRequest
     {
         public uint amount;
-    
-        public CoinsRequest (uint amount) => this.amount = amount;
+        public int seed;
+        public string args;
+
+        public CoinsRequest(uint amount, int seed)
+        {
+            args = HashCoins(amount, seed);
+            this.amount = amount;
+            this.seed = seed;
+        }
+        
+        public static string HashCoins(uint coins, int seed)
+        {
+            byte[] key = Encoding.UTF8.GetBytes(GameSecrets.HashSecret);
+            byte[] data = Encoding.UTF8.GetBytes($"{seed}{coins}");
+            using var hmac = new HMACSHA256(key);
+            byte[] hash = hmac.ComputeHash(data);
+            return BitConverter.ToString(hash).Replace("-", "").ToLower();
+        }
     }
 
 
-    [System.Serializable]
+    [Serializable]
     public class SeedResponse
     {
         public int seed;

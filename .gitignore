@@ -104,3 +104,5 @@ InitTestScene*.unity*
 
 .vscode
 .idea
+Assets/Scripts/GameSecrets.cs.meta
+Assets/Scripts/GameSecrets.cs
