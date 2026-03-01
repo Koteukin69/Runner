@@ -8,6 +8,12 @@ namespace Player
         [SerializeField] PlayerMovement _playerMovement;
         [SerializeField] AudioSource _audioSource;
 
+        [SerializeField] AudioClip _moveClip;
+        [SerializeField] AudioClip _jumpClip;
+        [SerializeField] AudioClip _slideClip;
+        [SerializeField] AudioClip _dieClip;
+        [SerializeField] AudioClip _coinCollectClip;
+        
         private void OnValidate()
         {
             if (!_playerMovement) TryGetComponent(out _playerMovement);
@@ -17,24 +23,17 @@ namespace Player
 
         private void Start()
         {
-            _playerMovement.OnJump += Jump;
-            _playerMovement.OnRoll += Slide;
-            GameManager.OnDie += Die;
+            _playerMovement.OnMove += _ => PlaySoundIfExits(_moveClip);
+            _playerMovement.OnJump += _ => PlaySoundIfExits(_jumpClip);
+            _playerMovement.OnRoll += _ => PlaySoundIfExits(_slideClip);
+            GameManager.CoinsManager.OnCoinsChange += _ => PlaySoundIfExits(_coinCollectClip);
+            GameManager.OnDie += () => PlaySoundIfExits(_dieClip);
         }
 
-        private void Jump(float duration)
+        private void PlaySoundIfExits(AudioClip clip)
         {
-            throw new NotImplementedException();
-        }
-
-        private void Slide(float duration)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Die()
-        {
-            throw new NotImplementedException();
+            if (!clip) return;
+            _audioSource.PlayOneShot(clip);
         }
     }
 }

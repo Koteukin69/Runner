@@ -26,9 +26,9 @@ namespace Player
         
         private Action _queued;
 
-        // TODO Animations
         public Action<float> OnJump;
         public Action<float> OnRoll;
+        public Action<float> OnMove;
 
         private void Awake()
         {
@@ -61,6 +61,7 @@ namespace Player
             int newPos = Mathf.Clamp(_position + GameManager.Input.MovedOn, 0, (int) GameManager.Lines - 1);
             if (newPos != _position)
             {
+                OnMove?.Invoke(_moveTime);
                 _position = newPos;
                 float targetX = GameManager.LinesShift * (_position - (GameManager.Lines - 1f) / 2);
                 _moveTween?.Kill();
